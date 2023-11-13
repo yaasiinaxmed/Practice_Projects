@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Button,
   NativeSelect,
@@ -9,6 +9,7 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import useCountries from "../hooks/useCounters";
+import { AiOutlineCloudUpload } from "react-icons/ai";
 
 function Add({ opened, setOpened }) {
   const { getAll } = useCountries();
@@ -20,6 +21,7 @@ function Add({ opened, setOpened }) {
       country: "",
       city: "",
       address: "",
+      image: null,
       title: "",
       type: "",
       description: "",
@@ -43,7 +45,7 @@ function Add({ opened, setOpened }) {
         }
       }
 
-      if (step === 2) {
+      if (step === 3) {
         if (values.title.length < 3) {
           errors.title = "Must have at least 3 characters";
         }
@@ -74,7 +76,7 @@ function Add({ opened, setOpened }) {
   const handleNextStep = () => {
     const { hasErrors } = form.validate();
     if (!hasErrors) {
-      if(step !== 2) {
+      if (step !== 3) {
         setStep((current) => current + 1);
       }
     }
@@ -84,11 +86,34 @@ function Add({ opened, setOpened }) {
     setStep(step - 1);
   };
 
+  const [imageURL, setImageURL] = useState(form.values?.image);
+
+  console.log(imageURL, "",form.values.image)
+
+  const cloudinaryRef = useRef();
+  const widgetRef = useRef();
+
+  useEffect(() => {
+    cloudinaryRef.current = window.cloudinary;
+    widgetRef.current = cloudinaryRef.current.createUploadWidget(
+        {
+            cloudName: "dcbeluo20",
+            uploadPreset: "mfdrpo5g",
+            maxFiles: 1
+        },
+        (err, result) => {
+            if(result.event === "success") {
+                setImageURL(result.info.secure_url)
+            }
+        }
+    )
+  }, [])
+
   const handleSubmit = () => {
-     const {hasErrors} = form.validate()
-     if(!hasErrors) {
-      console.log(form.values)
-     }
+    const { hasErrors } = form.validate();
+    if (!hasErrors) {
+      console.log(form.values);
+    }
   };
 
   return (
@@ -99,7 +124,7 @@ function Add({ opened, setOpened }) {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          if (step === 2) {
+          if (step === 3) {
             handleSubmit();
           }
         }}
@@ -130,7 +155,25 @@ function Add({ opened, setOpened }) {
             />
           </>
         )}
+
         {step === 2 && (
+          <div className="w-full h-full flex itmes-center justify-center flex-col mt-4 gap-6">
+          {!imageURL ? (
+            <div className="w-full h-[25rem] border-2 border-dashed border-blue-500 flex flex-col items-center justify-center cursor-pointer"
+             onClick={() => widgetRef.current?.open()}>
+              <AiOutlineCloudUpload size={50} className="text-blue-500" />
+              <span>Upload Image</span>
+            </div>
+          ) : (
+            <div className="w-full h-[31rem] rounded-lg overflow-hidden cursor-pointer"
+            onClick={() => widgetRef.current?.open()}>
+              <img src={imageURL} alt="" className="w-full h-full bg-center bg-cover bg-no-repeat object-cover" />
+            </div>
+          )}
+        </div>
+        )}
+
+        {step === 3 && (
           <>
             <TextInput
               label="Title"
@@ -195,7 +238,7 @@ function Add({ opened, setOpened }) {
               Previous
             </Button>
           )}
-          {step === 2 ? (
+          {step === 3 ? (
             <Button type="submit" color="#339AF0" className="px-8 py-6">
               Submit
             </Button>

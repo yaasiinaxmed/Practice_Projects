@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {Modal, Stepper, Button, Group, Container } from '@mantine/core';
 import AddLocation from './AddLocation';
-import UploadImage from './UploadImage';
+// import UploadImage from './UploadImage';
 import BasicDetails from './BasicDetails';
 
 function ModalForm({opened, setOpened}) {
@@ -37,12 +37,12 @@ function ModalForm({opened, setOpened}) {
           />
         </Stepper.Step>
         <Stepper.Step label="Image" description="Upload">
-          <UploadImage
+          {/* <UploadImage
           nextStep={nextStep}
           prevStep={prevStep}
           fields={fields}
           setFields={setFields}
-          />
+          /> */}
         </Stepper.Step>
         <Stepper.Step label="Basic" description="Details">
           <BasicDetails
