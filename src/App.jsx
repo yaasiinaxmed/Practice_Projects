@@ -11,7 +11,8 @@ function App() {
   const [modalOpened, setModalOpened] = useState(false)
   return (
     <div>
-      <Home/>
+      {/* <Home/> */}
+      <Add/>
     </div>
   )
 }

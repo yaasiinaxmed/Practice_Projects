@@ -74,23 +74,21 @@ function Add({ opened, setOpened }) {
   const handleNextStep = () => {
     const { hasErrors } = form.validate();
     if (!hasErrors) {
-      setStep((current) => current + 1);
+      if(step !== 2) {
+        setStep((current) => current + 1);
+      }
     }
   };
-
-  console.log(step);
 
   const handlePreviousStep = () => {
     setStep(step - 1);
   };
 
   const handleSubmit = () => {
-    if (step === 2) {
      const {hasErrors} = form.validate()
      if(!hasErrors) {
-      setStep(step + 1)
+      console.log(form.values)
      }
-    }
   };
 
   return (
@@ -184,10 +182,6 @@ function Add({ opened, setOpened }) {
               />
             </div>
           </>
-        )}
-
-        {step === 3 && (
-          <h1>Successfully</h1>
         )}
 
         <div className="flex justify-between">

@@ -8,7 +8,7 @@ function Hero() {
       <div className="flex flex-col gap-5">
         {/* text */}
         <div className="flex flex-col gap-3">
-          <h2 className="font-bold text-7xl whitespace-normal">
+          <h2 className="font-bold text-7xl whitespace-normal leading-tight">
             Organize Your Whole
             <span className="text-[#31C48D]"> Apartment</span> in
             <span className="text-[#31C48D]"> One</span> Spot
@@ -31,7 +31,7 @@ function Hero() {
       </div>
 
       {/* hero right image */}
-      <figure className="w-[70rem]"> 
+      <figure className="w-[80rem]"> 
         <img src={img} alt="" className="w-full"/>
       </figure>
     </section>
