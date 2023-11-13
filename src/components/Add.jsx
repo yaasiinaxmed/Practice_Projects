@@ -88,7 +88,7 @@ function Add({ opened, setOpened }) {
 
   const [imageURL, setImageURL] = useState(form.values?.image);
 
-  console.log(imageURL, "",form.values.image)
+  console.log(, "",form.values.image)
 
   const cloudinaryRef = useRef();
   const widgetRef = useRef();
